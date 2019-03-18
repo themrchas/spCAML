@@ -7,21 +7,48 @@ var doLog = true;
 
     function getItem() {
 
+        var requestTarget = "http://localhost:8080/sites/dev/socafdev/_api/Web/Lists/getByTitle('CountryLinks')/items?$select=URL"
+
         var deferred = $.Deferred();
 
         $.ajax({
-            headers: { 'X-Auth-Token': '2de870af0bd04b0099d82dfc08451bd4' },
-            url: "https://api.football-data.org/v2/competitions/2002/teams",
-            dataType: 'json',
+            headers: { "Accept": "application/json; odata=verbose"},
+            url: requestTarget,
             type: 'GET',
         })
             .done(function (response) {
 
                 doLog && console.log(response);
-                deferred.resolve(response.teams);
+                deferred.resolve(response);
             })
             .fail(function (response) {
-                doLog && console.log('getTeams call failed returned', response)
+                doLog && console.log('getItem call failed returned', response)
+                deferred.reject(response);
+            })
+
+        return deferred.promise();
+    }
+
+    function getItemCaml(requestTarget,requestId) {
+
+        //var requestTarget = "http://localhost:8080/sites/dev/socafdev/_api/Web/Lists/getByTitle('CountryLinks')/items?$select=URL";
+
+
+        var deferred = $.Deferred();
+
+        $.ajax({
+            headers: { "Accept": "application/json; odata=verbose", "Content-Type": "application/JSON;odata=verbose", "X-RequestDigest":requestId},
+            url: requestTarget,
+            type: 'POST'
+          //  data:payload
+        })
+            .done(function (response) {
+
+                doLog && console.log(response);
+                deferred.resolve(response);
+            })
+            .fail(function (response) {
+                doLog && console.log('getItem call failed returned', response)
                 deferred.reject(response);
             })
 
@@ -30,7 +57,7 @@ var doLog = true;
 
     function getRequestDigest() {
 
-       var requestTarget = "http://sp-dev-sp/sites/dev/socafdev/_api/contextinfo";
+       var requestTarget = "http://localhost:8080/sp-dev-sp/sites/dev/socafdev/_api/contextinfo";
      // var requestTarget = "http://localhost:8080/sites/dev/socafdev/_api/contextinfo/"   
 
         var deferred = $.Deferred();
@@ -45,7 +72,7 @@ var doLog = true;
         })
             .done(function (response) {
 
-                doLog && console.log(response);
+                doLog && console.log("Request digest is",response.d.GetContextWebInformation.FormDigestValue);
                 deferred.resolve(response.d.GetContextWebInformation.FormDigestValue);
             })
             .fail(function (response) {
@@ -60,7 +87,8 @@ var doLog = true;
 
 return {
     'getItem': getItem,
-    'getRequestDigest':getRequestDigest
+    'getRequestDigest':getRequestDigest,
+    'getItemCaml': getItemCaml
 };
 
 }]);
