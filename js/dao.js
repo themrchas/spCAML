@@ -44,7 +44,7 @@ var doLog = true;
         })
             .done(function (response) {
 
-                doLog && console.log(response);
+                doLog && console.log('Received response',response);
                 deferred.resolve(response);
             })
             .fail(function (response) {
@@ -57,6 +57,7 @@ var doLog = true;
 
     function getRequestDigest() {
 
+    console.log('Getting request digest');
        var requestTarget = "http://localhost:8080/sp-dev-sp/sites/dev/socafdev/_api/contextinfo";
      // var requestTarget = "http://localhost:8080/sites/dev/socafdev/_api/contextinfo/"   
 
