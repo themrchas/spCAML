@@ -16,10 +16,14 @@ var app = angular.module("app1",[]);
 
     var targetUrl = "http://localhost:8080/sites/dev/socafdev/_api/Web/Lists/getByTitle('CountryLinks')/GetItems(query=@v1)?";
 
+    //Working - query a single valued managed metadata field
+    var camlQuery =  { ViewXml: "<View><Query><Where><Eq><FieldRef Name='Country'/><Value Type='TaxonomyFieldType'>Germany</Value></Eq></Where></Query></View>" };
+
     
-    //Working - query as '( A or B) and C' where A and B are multi valued managed metadata and C is a choice field
+    /*Working - query as '( A or B) and C' where A and B are multi valued managed metadata and C is a choice field
     var camlQuery =  { ViewXml: "<View><Query><Where><And><Or><Eq><FieldRef Name='Countries'/><Value Type='Text'>Germany</Value></Eq><Eq><FieldRef Name='Countries'/><Value Type='Text'>Africa</Value></Eq></Or><Eq><FieldRef Name='Choice'/><Value Type='Text'>facts</Value></Eq></And></Where></Query></View>" };
-    
+    */
+
     /* Working  - queries multi value managed metadata for value 'Germany'
     var camlQuery =  { ViewXml: "<View><Query><Where><Eq><FieldRef Name='Countries'/><Value Type='Text'>Germany</Value></Eq></Where></Query></View>" };
     */
